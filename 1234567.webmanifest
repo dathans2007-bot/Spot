@@ -1,0 +1,14 @@
+{
+  "name": "Offline Beats Music Player",
+  "short_name": "Offline Beats",
+  "description": "A personal offline music player for your own audio files.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#101010",
+  "theme_color": "#111111",
+  "icons": [
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

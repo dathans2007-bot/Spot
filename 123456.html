@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111111">
+  <meta name="description" content="Offline music player for your own music files.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Offline Beats</title>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Offline Beats home" data-page="home"><span class="brand-mark">♫</span><span>Offline Beats</span></a>
+    <button id="importTop" class="icon-button" aria-label="Add music" title="Add music">＋</button>
+  </header>
+
+  <main id="appMain">
+    <section class="page active" id="page-home" data-page-section="home">
+      <div class="hero">
+        <p class="eyebrow">YOUR MUSIC. YOUR DEVICE.</p>
+        <h1>Your soundtrack.<br><span>No signal needed.</span></h1>
+        <p class="hero-copy">Play music you’ve saved on your phone, even when you’re offline.</p>
+        <button class="primary-button" data-action="import">＋ Add songs</button>
+      </div>
+      <div class="section-heading"><h2>Recently added</h2><button class="text-button" data-page="library">See all</button></div>
+      <div id="homeRecent" class="track-list"></div>
+      <div id="homeEmpty" class="empty-state">
+        <div class="empty-icon">♫</div><h3>Your music starts here</h3>
+        <p>Tap <b>Add songs</b> and choose audio files from your phone.</p>
+      </div>
+    </section>
+
+    <section class="page" id="page-library" data-page-section="library">
+      <div class="page-heading"><p class="eyebrow">YOUR COLLECTION</p><h1>Your Library</h1><p class="muted">Music you’ve imported stays on this device.</p></div>
+      <div class="toolbar">
+        <input id="searchInput" class="search" type="search" placeholder="Search songs or artists" autocomplete="off" aria-label="Search songs or artists">
+        <button class="secondary-button" data-action="import">＋ Add</button>
+      </div>
+      <div id="libraryTracks" class="track-list"></div>
+      <div id="libraryEmpty" class="empty-state">
+        <div class="empty-icon">▤</div><h3>No songs yet</h3><p>Add MP3, M4A, WAV, OGG, or other audio files supported by your browser.</p>
+        <button class="primary-button" data-action="import">Choose music</button>
+      </div>
+      <p id="searchEmpty" class="muted hidden">No songs match that search.</p>
+    </section>
+
+    <section class="page" id="page-playlists" data-page-section="playlists">
+      <div class="page-heading"><p class="eyebrow">MADE BY YOU</p><h1>Playlists</h1><p class="muted">Make a mix for every mood.</p></div>
+      <div class="create-row"><input id="playlistName" type="text" maxlength="40" placeholder="New playlist name" aria-label="New playlist name"><button id="createPlaylist" class="primary-button">Create</button></div>
+      <div id="playlistList" class="playlist-grid"></div>
+      <div id="playlistEmpty" class="empty-state"><div class="empty-icon">▧</div><h3>Nothing but potential</h3><p>Create a playlist, then add songs from Your Library.</p></div>
+      <div id="playlistDetail" class="playlist-detail hidden">
+        <div class="detail-header"><button id="backPlaylists" class="text-button">‹ All playlists</button><button id="deletePlaylist" class="text-button danger">Delete</button></div>
+        <h2 id="detailTitle"></h2><p id="detailCount" class="muted"></p>
+        <div id="detailTracks" class="track-list"></div>
+        <div class="add-to-playlist"><label for="addTrackSelect">Add a song</label><select id="addTrackSelect"></select><button id="addTrackButton" class="secondary-button">Add</button></div>
+      </div>
+    </section>
+
+    <section class="page" id="page-liked" data-page-section="liked">
+      <div class="liked-hero"><div class="liked-art">♥</div><div><p class="eyebrow">YOUR PERSONAL MIX</p><h1>Liked Songs</h1><p class="muted">The tracks you want to keep close.</p></div></div>
+      <div id="likedTracks" class="track-list"></div>
+      <div id="likedEmpty" class="empty-state"><div class="empty-icon">♡</div><h3>Save the good ones</h3><p>Tap the heart next to any song to find it here.</p></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button class="nav-item active" data-page="home"><span class="nav-icon">⌂</span><span>Home</span></button>
+    <button class="nav-item" data-page="library"><span class="nav-icon">▤</span><span>Library</span></button>
+    <button class="nav-item" data-page="playlists"><span class="nav-icon">▧</span><span>Playlists</span></button>
+    <button class="nav-item" data-page="liked"><span class="nav-icon">♡</span><span>Liked</span></button>
+  </nav>
+
+  <section class="player" id="player" aria-label="Music player">
+    <div class="player-top">
+      <div class="now-art">♫</div>
+      <div class="now-info"><div id="nowTitle" class="now-title">Nothing playing</div><div id="nowArtist" class="now-artist">Choose a song from your library</div></div>
+      <button id="playerLike" class="player-heart" aria-label="Like current song">♡</button>
+      <button id="playPause" class="play-button" aria-label="Play or pause">▶</button>
+    </div>
+    <div class="progress-row"><span id="currentTime">0:00</span><input id="seekBar" type="range" min="0" max="1000" value="0" aria-label="Seek through song"><span id="duration">0:00</span></div>
+    <div class="player-controls">
+      <button id="shuffleButton" class="control-button" aria-label="Toggle shuffle" title="Shuffle">⤨</button>
+      <button id="previousButton" class="control-button" aria-label="Previous song" title="Previous">|◀</button>
+      <button id="skipBack" class="control-button" aria-label="Back 10 seconds" title="Back 10 seconds">↶10</button>
+      <button id="skipForward" class="control-button" aria-label="Forward 10 seconds" title="Forward 10 seconds">10↷</button>
+      <button id="nextButton" class="control-button" aria-label="Next song" title="Next">▶|</button>
+      <button id="repeatButton" class="control-button" aria-label="Toggle repeat" title="Repeat">↻</button>
+      <select id="speedSelect" class="speed-select" aria-label="Playback speed"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select>
+    </div>
+    <audio id="audio" preload="metadata"></audio>
+  </section>
+
+  <input id="filePicker" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.aac,.flac,.opus" multiple hidden>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js" defer></script>
+</body>
+</html>
